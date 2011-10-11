@@ -20,17 +20,20 @@ All date formats are given in ISO-8601 which can be processed natively with `Dat
 All requests are pre-processed and validated. This section outlines how we handle errors within the API and respond to them.
 
 1. Sending Invalid JSON-content will result in the following response.
-
+    
+      ```
       HTTP/1.1 400 Bad Request
       Content-Length: 26
-      
+    
       {"message":"Invalid JSON"}
+      ```
     
 2. All API requests are validated. The following is an example output for a required parameter that wasn't given.
-
+  
+      ```
       HTTP/1.1 422 Unprocessable Entity
       Content-Length: 136
-      
+    
       {
         "message": "Validation Failed",
         "errors": [
@@ -40,8 +43,9 @@ All requests are pre-processed and validated. This section outlines how we handl
           }
         ]
       }
+      ```
   
-  Possible error codes are `required` and `invalid`.
+      Possible error codes are `required` and `invalid`.
 
 ### Authentication
 Where necessary you will need to authenticate who you are. Before spawning browser workers and getting browser screenshots for example. Authentication is done using your username/password within the HTTP request. For example:
@@ -103,6 +107,42 @@ Spawn a new browser instance as a browser worker. Browser workers are completely
 
 > This call requires authentication.
 
+Once a worker has been spawned you can see it listed in your dashboard account online at browserstack.com. You can then login to this worker VM and do any interactions you want if you need to.
+
+### Parameters
+A valid request must contain a `browser` and either a `url` or `data` parameter but not both. `Timeout` is optional but defaults to 30seconds.
+
+#### browser
+The browser ID. These can be found from the `/browser` API call outlined above.
+
+#### (timeout=30)
+A number in seconds before the worker is terminated. Set this to 0 to keep the worker alive indefinitely.
+
+> IMPORTANT! If you have set the timeout to 0. Make sure you remember to terminate the worker otherwise it will continue to use up your credits.
+
+#### (url)
+A valid url to navigate the browser to. This should be used instead of `data` and not together.
+
+> Must be base-64 encoded  
+
+#### (data)
+A valid HTML content page to run. This should be used instead of `url` and not together.
+
+> Must be base-64 encoded.
+
+### Response
+The response will be returned when the worker has been spawned and the url loaded. The `X-Worker-Id` represents the worker id used for getting screenshots and status of the worker.
+
+    HTTP/1.1 200 Success
+    X-Worker-Id: 3255bfef
+
+## Getting a Worker Screenshot
+This method will allow you to get a screenshot image of the browser window.
+
+    POST /worker
+
+> This call requires authentication.
+
 ### Parameters
 
 #### browser
@@ -123,3 +163,4 @@ The response will be returned when the worker has been spawned and the url loade
 
     HTTP/1.1 200 Success
     X-Worker-Id: 3255bfef
+
