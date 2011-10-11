@@ -1,16 +1,59 @@
-# BrowserStack API
-The following denotes the HTTP-based API for BrowserStack. The URL prefix should take the following format for all queries listed on this page.
+# API Overview
+The following denotes the HTTP-based API for BrowserStack.
 
-    http://api.browserstack.com/<version>/<auth>/
+### Schema
+All requests are made to `http://api.browserstack.com/VERSION/` and all returned data is done so in JSON-format. The version this documentation outlines is 1.
+
+    $ curl -i http://api.browserstack.com/1
+
+    HTTP/1.1 200 OK
+    Content-Type: application/json
+    Status: 200 OK
+    X-API-Version: 1
+    Content-Length: 2
+
+    {}
+
+All date formats are given in ISO-8601 which can be processed natively with `Date.parse` in compatible JavaScript environments.
+
+### Error Handling
+All requests are pre-processed and validated. This section outlines how we handle errors within the API and respond to them.
+
+1. Sending Invalid JSON-content will result in the following response.
+
+      HTTP/1.1 400 Bad Request
+      Content-Length: 26
+      
+      {"message":"Invalid JSON"}
     
-`version` denotes the version identifier for the API you are targetting. This document outlines the `v1` API specification.
-`auth` denotes the authentication token which you can get from your settings page. For example:
+2. All API requests are validated. The following is an example output for a required parameter that wasn't given.
 
-    http://api.browserstack.com/1/da39a3ee3255bfef5e6b4b0d/browsers?type=msie
+      HTTP/1.1 422 Unprocessable Entity
+      Content-Length: 136
+      
+      {
+        "message": "Validation Failed",
+        "errors": [
+          {
+            "field": "type",
+            "code": "required"
+          }
+        ]
+      }
+  
+  Possible error codes are `required` and `invalid`.
 
-Will list all all MSIE browsers available for the user with token da39a3ee3255bfef5e6b4b0d.
+### Authentication
+Where necessary you will need to authenticate who you are. Before spawning browser workers and getting browser screenshots for example. Authentication is done using your username/password within the HTTP request. For example:
 
-## GET /browsers
+    $ curl -u "username:PASSWORD" https://api.browserstack.com/1
+
+# API Documentation
+
+## Getting Available Browsers
+Fetches all available browsers and IDs that represent them. IDs will be unique to each browser and will never change for the continued existence of that API version.
+
+    GET /browsers(/:type)
 
 ### Parameters
 
@@ -25,10 +68,7 @@ The browser type. Currently theses are:
   * android
   * ...
   
-An example for `msie` is shown in the summary section above.
-
-
-Gets a list of browsers that can be emulated/spawned using the API. Specifying a type as a get parameter will filter the list of browsers to that specific type. An example of this would be `/browsers?type=msie` which will return a list of Internet Explorer browsers versions available. The key to the returned JSON object represents the ID for that browser. The ID is unique and will never change.
+### Output
 
 ```javascript
 {
@@ -56,15 +96,12 @@ Gets a list of browsers that can be emulated/spawned using the API. Specifying a
 }
 ```
   
-## POST /worker
-Spawn a new browser instance as a browser worker. Browser workers are completely untouched. You can perform and ajax get/post calls to remote servers you want. Be sure to perform proper error handling yourself. Workers can continue to be run until you run out of credit.
+## Create a New Browser Worker
+Spawn a new browser instance as a browser worker. Browser workers are completely untouched. You can perform and ajax get/post calls to remote servers you want. Be sure to perform proper error handling yourself. Workers can continue to be run until you run out of time credit.
 
-The POST request will return a header along the following lines with a worker id. You can use this worker ID to find out how long it has been running. The response will block until the worker has been spawned and resolved the url/loaded the data and return a status code that represents the health of it. `200 Success` means its all well and good.
+    POST /worker
 
-For example:
-  
-  HTTP/1.1 200 Success
-  X-Worker-Id: 3255bfef
+> This call requires authentication.
 
 ### Parameters
 
@@ -80,3 +117,9 @@ A valid url to navigate the browser to. This should be used instead of `data` an
 A valid HTML content page to run. This should be used instead of `url` and not together.
 
 > Must be base-64 encoded.
+
+### Response
+The response will be returned when the worker has been spawned and the url loaded. The `X-Worker-Id` represents the worker id used for getting screenshots and status of the worker.
+
+    HTTP/1.1 200 Success
+    X-Worker-Id: 3255bfef
