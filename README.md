@@ -131,36 +131,53 @@ A valid HTML content page to run. This should be used instead of `url` and not t
 > Must be base-64 encoded.
 
 ### Response
-The response will be returned when the worker has been spawned and the url loaded. The `X-Worker-Id` represents the worker id used for getting screenshots and status of the worker.
+The response will be returned when the worker has been spawned and the url loaded. The ID can be used to retrieve screenshots or terminate the worker later on.
 
     HTTP/1.1 200 Success
-    X-Worker-Id: 3255bfef
+    Content-Type: application/json
+    X-API-Version: 1
+    
+    {
+      "id": "da39a3ee"
+    }
 
 ## Getting a Worker Screenshot
 This method will allow you to get a screenshot image of the browser window.
 
-    POST /worker
+    GET /worker/screen/:id
+    
+`id` represents the worker id. This is returned from a successful `POST /worker` call and is required to get a screenshot (obviously).
 
-> This call requires authentication.
+> This call requires authentication. And requires you to be the same user who originally created the worker.
 
 ### Parameters
 
-#### browser
-The browser ID. These can be found from the `/browser` API call outlined above.
+#### (type=jpg)
+The image type. This defaults to standard-quality jpg.
 
-#### url
-A valid url to navigate the browser to. This should be used instead of `data` and not together.
+#### (resolution=800x600)
+The resolution of the image. This can be either:
 
-> Must be base-64 encoded  
-
-#### data
-A valid HTML content page to run. This should be used instead of `url` and not together.
-
-> Must be base-64 encoded.
+* 800x600
+* 1024x768
+* 1280x1024
 
 ### Response
-The response will be returned when the worker has been spawned and the url loaded. The `X-Worker-Id` represents the worker id used for getting screenshots and status of the worker.
+The returned object will return the base64 encoded image data. You can show this on a page by simply doing:
 
     HTTP/1.1 200 Success
-    X-Worker-Id: 3255bfef
+    Content-Type: application/json
+    X-API-Version: 1
 
+    {
+      "mime": "image/jpg",
+      "data": "base64...encoded...image...data"
+    }
+
+This can be displayed on any standard HTML page with the following code snippit:
+
+```html
+<img src="data:{mime};base64,{data}">
+```
+
+Where {mime} is replaced with the returned mime in the json object and {data} is replaced by the base64 encoded data returned in the data tag.
