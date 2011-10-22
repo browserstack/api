@@ -44,13 +44,25 @@ All requests are pre-processed and validated. This section outlines how we handl
       ]
     }
     ```
-  
+    
     Possible error codes are `required` and `invalid`.
 
 ### Authentication
 Where necessary you will need to authenticate who you are. Before spawning browser workers and getting browser screenshots for example. Authentication is done using your username/password within the HTTP request. For example:
 
     $ curl -u "username:PASSWORD" https://api.browserstack.com/1
+    
+### JSON-P Callbacks
+Add a `?callback` parameter to any GET request and the JSON response will be wrapped in the given callback function name. This is particularly useful for cross-domain browser security constraints.
+
+### HTTP Verbs
+The API is kept concise and simple by making use of relevant HTTP verbs on each requests. The specifications for these are vague and their use within this API is specific but in general we follow the following rules:
+
+  * `HEAD` - Performs the request to asses the status of a resource and expects no content response.
+  * `GET` - Used to retrieve resources.
+  * `POST` - Used to create new resources.
+  * `PUT` - Used to update resources.
+  * `DELETE` - Used to delete resources.
 
 # API Documentation
 
