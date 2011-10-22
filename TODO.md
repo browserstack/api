@@ -1,1 +1,0 @@
-* HEAD /worker/:id (gets worker status)

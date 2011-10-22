@@ -320,3 +320,12 @@ It's useful to know how much time credit you have left in your account. This API
 
 `remaining` Is the number of seconds remaining.
 `used` Is the number of seconds used (in total).
+
+## Getting Worker Status
+Sometimes you will need to check on the status of a worker. Not to be confused with the state of the javascript environment within the worker this method simply determines whether the worker is terminated or not.
+    
+    HEAD /worker/:id
+    
+> This call requires authentication. If the request was made unauthorised a `401 Unauthorized` response is given. Alternatively if the authorised user is not the owner of the worker a `403 Forbidden` response is given.
+
+If the worker has been terminated a `404 Not Found` response is given. Otherwise a `200 Success` is returned.
