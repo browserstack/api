@@ -64,13 +64,13 @@ Fetches all available browsers and IDs that represent them. IDs will be unique t
 #### Type
 The browser type. Currently theses are:
 
-  * ie
-  * firefox
-  * chrome
-  * ios
-  * opera
-  * android
-  * safari
+  * ie (Internet Explorer)
+  * ff (Mozilla FireFox)
+  * chrome (Google Chrome)
+  * ios (Apple iOS Safari)
+  * opera (Opera)
+  * android (Google Android Chrome)
+  * safari (Apple Safari)
   * ...
   
 ### Output
@@ -82,21 +82,21 @@ The browser type. Currently theses are:
     type: 'ie',
     version: 7,
     tag: 'ie7',
-    agent: 'Mozilla/4.0 (compatible; MSIE 7.0b; Windows NT 6.0)'
+    agent: 'Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1)'
   },
   {
     name: 'FireFox',
-    type: 'firefox',
-    version: 2.5,
-    tag: 'ff2.5',
-    agent: 'Mozilla/4.0 (compatible; MSIE 7.0b; Windows NT 6.0)'
+    type: 'ff',
+    version: 2.0,
+    tag: 'ff2',
+    agent: 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.8.1.6) Gecko/20070725 Firefox/2.0.0.6	'
   },
   {
-    name: 'FireFox',
-    type: 'firefox',
-    version: 3.0,
-    tag: 'ff3.0',
-    agent: 'Mozilla/4.0 (compatible; MSIE 7.0b; Windows NT 6.0)'
+    name: 'Internet Explorer',
+    type: 'ie',
+    version: 6.0,
+    tag: 'ie6',
+    agent: 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; .NET CLR 1.1.4322)'
   } ...
 ]
 ```
@@ -106,16 +106,20 @@ A browser worker is simply a new browser instance with `window.ondata` and `wind
 
     POST /worker
 
-> This call requires authentication.
+> This call requires authentication. A `401 Unauthorized` response is given if an unauthorised request is made.
 
-Once a worker has been spawned you can see it listed in your dashboard account online at browserstack.com. You can then login to this worker VM and do any interactions you want if you need to.
+Once a worker has been spawned you can see it listed in your dashboard account online at browserstack.com. You can then control this browser instance remotely if necessary.
+
+`ondata` is an event that's called when the client initiates a `PUT /worker/:id` request. See the _Getting results_ section for more details.
+
+`postData` is a method that's used to send messages back to the client. Every time it's called a new object is added to a stack which is emptied into the response of a `GET /worker/:id` request. See the _Sending message/data_ section for more details.
 
 ### Parameters
-A valid request must contain a `browser` and either a `url` or `data` parameter but not both. `Timeout` is optional but defaults to 30seconds.
+A valid request must contain a `browser` and either a `url` or `data` parameter but not both. `timeout` is optional but defaults to 30 seconds.
 
 #### browser
-The browser ID. These can be found from the `/browser` API call outlined above.
-
+A valid browser tag. A list of supported browser tags are given using the `GET /browsers`. See the _Getting Available Browsers_ above for details.
+ 
 #### (timeout=30)
 A number in seconds before the worker is terminated. Set this to 0 to keep the worker alive indefinitely.
 
@@ -124,15 +128,15 @@ A number in seconds before the worker is terminated. Set this to 0 to keep the w
 #### (url)
 A valid url to navigate the browser to. This should be used instead of `data` and not together.
 
-> Must be base-64 encoded  
+> Make sure the url is encoded. JavaScript: encodeURI(url), PHP: urlencode($url), 
 
 #### (data)
 A valid HTML content page to run. This should be used instead of `url` and not together.
 
-> Must be base-64 encoded.
+> Must be a url-safe base-64 encoded string.
 
 ### Response
-The response will be returned when the worker has been spawned and the url loaded. The ID can be used to retrieve screenshots or terminate the worker later on.
+The response will be returned when the worker has been setup and initialised. This involves loading the HTML data or navigating to the url given depending on the setup parameters. Use the id returned to perform any further communications etc.
 
     HTTP/1.1 200 Success
     Content-Type: application/json
@@ -141,15 +145,38 @@ The response will be returned when the worker has been spawned and the url loade
     {
       "id": "da39a3ee"
     }
+    
+> Note this can take up to 1 minute to complete.
+
+If there was an error decoding the data or the URL failed to load then a `HTTP/1.1 422 Unprocessable Entity` response is given with the error description as the response body. An example for a Page Not Found error on the given URL would be:
+    
+    POST /worker
+      url="http://some-non-existant-domain.tld"
+      browser="ie7"
+
+    HTTP/1.1 422 Unprocessable Entity
+    Content-Type: application/json
+    X-API-Version: 1
+  
+    {
+      "message": "URL Could Not Be Found",
+      "errors": [
+        {
+          "field": "url"
+          "message": "Page Not Found"
+          "code": 404
+        }
+      ]
+    }
 
 ## Getting a Worker Screenshot
-This method will allow you to get a screenshot image of the browser window.
+Once a worker has been started you can get a screenshot of the browser window at any point whilst the worker is still running. If the worker has been terminated a `404 Not Found` response will be given instead.
 
     GET /worker/screen/:id
     
-`id` represents the worker id. This is returned from a successful `POST /worker` call and is required to get a screenshot (obviously).
+`id` represents the worker id. This is returned from a successful `POST /worker` call and is required to get a screenshot of that worker instance.
 
-> This call requires authentication. And requires you to be the same user who originally created the worker.
+> This call requires authentication. If the request was made unauthorised a `401 Unauthorized` response is given. Alternatively if the authorised user is not the owner of the worker a `403 Forbidden` response is given.
 
 ### Parameters
 
@@ -190,40 +217,52 @@ Use this method to terminate a worker. Useful if you set the worker up to run in
   
 The id is the id returned when you first created the worker. Once called the browser instance will be immediately terminated and will no longer be accessible.
 
+> This call requires authentication. If the request was made unauthorised a `401 Unauthorized` response is given. Alternatively if the authorised user is not the owner of the worker a `403 Forbidden` response is given.
+
 ## Getting results
-This is the easiest way to fetch results given by the worker. Every worker instance is given an extra method to the `window` object called `postData` which if called all arguments of which will be placed on a stack which are fetch-able using this HTTP call.
+This is the easiest way to fetch results given by the worker. Every worker instance is given an extra method to the `window` object called `postData` which if called all arguments of which will be placed on a stack which are fetch-able using this HTTP call. If the worker has been terminated or doesn't exist a `404 Not Found` response is given.
 
   GET /worker/:id
   
-> NOTE! Once you've fetched the results they'll be removed from the stack. It's therefore recommended to poll this method.
+> NOTE! Once you've fetched the results they'll be removed from the stack. It's therefore recommended to poll this method for updates.
+
+> This call requires authentication. If the request was made unauthorised a `401 Unauthorized` response is given. Alternatively if the authorised user is not the owner of the worker a `403 Forbidden` response is given.
   
 ### Response
 The response is JSON encoded array containing all the posted data being stored on the stack, for example:
 
-      HTTP/1.1 200 Success
-      Content-Type: application/json
-      X-API-Version: 1
+    HTTP/1.1 200 Success
+    Content-Type: application/json
+    X-API-Version: 1
 
-      [ 'hello', 'world', 'foo', 'bar' ]
+    [ 'hello', 'world', 'foo', 'bar' ]
       
 If the stack is empty an empty array `[]` is returned.
 
-#### Example Flow
+#### Example Request-Flow
 
-      Worker:
-      window.postData('hello', 'world');
-      window.postData('bob');
-      
-      Client:
-      GET /worker/:id
-        -> [ "hello", "world", "bob" ]
-      
-      Worker:
-      window.postData({ foo: 'bar'});
-      
-      Client:
-      GET /worker/:id
-        -> [ { "foo": "bar" } ]
+Worker:
+```javascript
+window.postData('hello', 'world');
+window.postData('bob');
+```
+
+Client:
+```
+GET /worker/:id
+  -> [ "hello", "world", "bob" ]
+```  
+
+Worker:
+```javascript
+window.postData({ foo: 'bar'});
+```    
+
+Client:
+```
+GET /worker/:id
+  -> [ { "foo": "bar" } ]
+```
         
 ## Sending message/data
 Just like a WebWorker if this method is called the `window.ondata` function is called. Bind to this event and every time this API call is made the data passed to it will be forwarded to this method. Again all data is JSON encoded.
@@ -232,26 +271,35 @@ Just like a WebWorker if this method is called the `window.ondata` function is c
 
 > The server will close the request after the method call has been processed and invoked. Allowing for immediate postData responses to be polled for immediately afterwards.
 
-### Example
-  
-  worker:
-  window.ondata = function(names) {
-    window.postData('Hello, ' + names.join(' ') + '!');
-  }
-  
-  client:
-  PUT /worker/:id
-  [ "John", "Thomas" ]
-  
-  GET /worker/:id
-    -> "Hello, John Thomas!"
+> This call requires authentication. If the request was made unauthorised a `401 Unauthorized` response is given. Alternatively if the authorised user is not the owner of the worker a `403 Forbidden` response is given.
+
+### Example Request-Flow
+
+Worker:
+```javascript
+window.ondata = function(names) {
+  window.postData('Hello, ' + names.join(' ') + '!');
+}
+```  
+
+Client:
+```
+PUT /worker/:id
+[ "John", "Thomas" ]
+```
+
+Client:
+```
+GET /worker/:id
+  -> "Hello, John Thomas!"
+```
     
 ## Getting account credit
 It's useful to know how much time credit you have left in your account. This API call will help you find out.
 
-  GET /account/credit
+    GET /account/credit
   
-> Note this call required authentication.
+> Note this call required authentication. If an unauthorised request was made a `401 Unauthorized` response is returned.
 
 ### Response Example
 
