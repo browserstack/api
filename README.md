@@ -210,12 +210,12 @@ If the stack is empty an empty array `[]` is returned.
 #### Example Flow
 
       Worker:
-      window.postMessage('hello');
+      window.postMessage('hello', 'world');
       window.postMessage('bob');
       
       Client:
       GET /worker/:id
-        -> [ "hello", "bob" ]
+        -> [ "hello", "world", "bob" ]
       
       Worker:
       window.postMessage({ foo: 'bar'});
@@ -223,3 +223,29 @@ If the stack is empty an empty array `[]` is returned.
       Client:
       GET /worker/:id
         -> [ { "foo": "bar" } ]
+        
+## Sending message/data
+Just like a WebWorker if this method is called the `window.onmessage` function is called. Bind to this event and every time this API call is made the data passed to it will be forwarded to this method. Again all data is JSON encoded.
+
+  PUT /worker/:id
+
+> The server will close the request after the method call has been processed and invoked. Allowing for immediate postMessage responses to be polled for immediately afterwards.
+
+### Response
+As this event can be bound to many times it makes no sense to post-back the returned value of the `onmessage` function. If you wish to respond to the message, just like in a WebWorker, you should use the `window.postMessage` function and poll for messages using the `GET` verb.
+
+### Example
+  
+  worker:
+  window.onmessage = function(names) {
+    window.postMessage('Hello, ' + names.join(' ') + '!');
+  }
+  
+  client:
+  PUT /worker/:id
+  [ "John", "Thomas" ]
+  
+  GET /worker/:id
+    -> "Hello, John Thomas!"
+
+  
