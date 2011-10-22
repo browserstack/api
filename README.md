@@ -64,44 +64,45 @@ Fetches all available browsers and IDs that represent them. IDs will be unique t
 #### Type
 The browser type. Currently theses are:
 
-  * msie
+  * ie
   * firefox
   * chrome
   * ios
   * opera
   * android
+  * safari
   * ...
   
 ### Output
 
 ```javascript
-{
-  "da39a3ee" : {
-    id: 'da39a3ee',
-    type: 'msie',
+[
+  {
+    name: 'Internet Explorer',
+    type: 'ie',
     version: 7,
-    os: 'win7',
+    tag: 'ie7',
     agent: 'Mozilla/4.0 (compatible; MSIE 7.0b; Windows NT 6.0)'
   },
-  "5e6b4b0d": {
-    id: '5e6b4b0d',
+  {
+    name: 'FireFox',
     type: 'firefox',
     version: 2.5,
-    os: 'win7',
+    tag: 'ff2.5',
     agent: 'Mozilla/4.0 (compatible; MSIE 7.0b; Windows NT 6.0)'
   },
-  "3255bfef": {
-    id: '3255bfef',
+  {
+    name: 'FireFox',
     type: 'firefox',
     version: 3.0,
-    os: 'win7',
+    tag: 'ff3.0',
     agent: 'Mozilla/4.0 (compatible; MSIE 7.0b; Windows NT 6.0)'
   } ...
-}
+]
 ```
   
 ## Create a New Browser Worker
-Spawn a new browser instance as a browser worker. Browser workers are completely untouched. You can perform and ajax get/post calls to remote servers you want. Be sure to perform proper error handling yourself. Workers can continue to be run until you run out of time credit.
+A browser worker is simply a new browser instance with `window.ondata` and `window.postData` added to the global window object. Everything else is left untouched.
 
     POST /worker
 
@@ -190,7 +191,7 @@ Use this method to terminate a worker. Useful if you set the worker up to run in
 The id is the id returned when you first created the worker. Once called the browser instance will be immediately terminated and will no longer be accessible.
 
 ## Getting results
-This is the easiest way to fetch results given by the worker. Every worker instance is given an extra method to the `window` object called `postMessage` which if called all arguments of which will be placed on a stack which are fetch-able using this HTTP call.
+This is the easiest way to fetch results given by the worker. Every worker instance is given an extra method to the `window` object called `postData` which if called all arguments of which will be placed on a stack which are fetch-able using this HTTP call.
 
   GET /worker/:id
   
@@ -210,32 +211,32 @@ If the stack is empty an empty array `[]` is returned.
 #### Example Flow
 
       Worker:
-      window.postMessage('hello', 'world');
-      window.postMessage('bob');
+      window.postData('hello', 'world');
+      window.postData('bob');
       
       Client:
       GET /worker/:id
         -> [ "hello", "world", "bob" ]
       
       Worker:
-      window.postMessage({ foo: 'bar'});
+      window.postData({ foo: 'bar'});
       
       Client:
       GET /worker/:id
         -> [ { "foo": "bar" } ]
         
 ## Sending message/data
-Just like a WebWorker if this method is called the `window.onmessage` function is called. Bind to this event and every time this API call is made the data passed to it will be forwarded to this method. Again all data is JSON encoded.
+Just like a WebWorker if this method is called the `window.ondata` function is called. Bind to this event and every time this API call is made the data passed to it will be forwarded to this method. Again all data is JSON encoded.
 
   PUT /worker/:id
 
-> The server will close the request after the method call has been processed and invoked. Allowing for immediate postMessage responses to be polled for immediately afterwards.
+> The server will close the request after the method call has been processed and invoked. Allowing for immediate postData responses to be polled for immediately afterwards.
 
 ### Example
   
   worker:
-  window.onmessage = function(names) {
-    window.postMessage('Hello, ' + names.join(' ') + '!');
+  window.ondata = function(names) {
+    window.postData('Hello, ' + names.join(' ') + '!');
   }
   
   client:
@@ -249,6 +250,8 @@ Just like a WebWorker if this method is called the `window.onmessage` function i
 It's useful to know how much time credit you have left in your account. This API call will help you find out.
 
   GET /account/credit
+  
+> Note this call required authentication.
 
 ### Response Example
 
