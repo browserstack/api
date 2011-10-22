@@ -21,31 +21,31 @@ All requests are pre-processed and validated. This section outlines how we handl
 
 1. Sending Invalid JSON-content will result in the following response.
     
-      ```
-      HTTP/1.1 400 Bad Request
-      Content-Length: 26
+    ```
+    HTTP/1.1 400 Bad Request
+    Content-Length: 26
     
-      {"message":"Invalid JSON"}
-      ```
+    {"message":"Invalid JSON"}
+    ```
     
 2. All API requests are validated. The following is an example output for a required parameter that wasn't given.
   
-      ```
-      HTTP/1.1 422 Unprocessable Entity
-      Content-Length: 136
+    ```
+    HTTP/1.1 422 Unprocessable Entity
+    Content-Length: 136
     
-      {
-        "message": "Validation Failed",
-        "errors": [
-          {
-            "field": "type",
-            "code": "required"
-          }
-        ]
-      }
-      ```
+    {
+      "message": "Validation Failed",
+      "errors": [
+        {
+          "field": "type",
+          "code": "required"
+        }
+      ]
+    }
+    ```
   
-      Possible error codes are `required` and `invalid`.
+    Possible error codes are `required` and `invalid`.
 
 ### Authentication
 Where necessary you will need to authenticate who you are. Before spawning browser workers and getting browser screenshots for example. Authentication is done using your username/password within the HTTP request. For example:
@@ -149,25 +149,29 @@ The response will be returned when the worker has been setup and initialised. Th
 > Note this can take up to 1 minute to complete.
 
 If there was an error decoding the data or the URL failed to load then a `HTTP/1.1 422 Unprocessable Entity` response is given with the error description as the response body. An example for a Page Not Found error on the given URL would be:
-    
-    POST /worker
-      url="http://some-non-existant-domain.tld"
-      browser="ie7"
 
-    HTTP/1.1 422 Unprocessable Entity
-    Content-Type: application/json
-    X-API-Version: 1
-  
+```  
+POST /worker
+  url="http://some-non-existant-domain.tld"
+  browser="ie7"
+```
+
+```
+HTTP/1.1 422 Unprocessable Entity
+Content-Type: application/json
+X-API-Version: 1
+
+{
+  "message": "URL Could Not Be Found",
+  "errors": [
     {
-      "message": "URL Could Not Be Found",
-      "errors": [
-        {
-          "field": "url"
-          "message": "Page Not Found"
-          "code": 404
-        }
-      ]
+      "field": "url"
+      "message": "Page Not Found"
+      "code": 404
     }
+  ]
+}
+```
 
 ## Getting a Worker Screenshot
 Once a worker has been started you can get a screenshot of the browser window at any point whilst the worker is still running. If the worker has been terminated a `404 Not Found` response will be given instead.
@@ -241,24 +245,20 @@ If the stack is empty an empty array `[]` is returned.
 
 #### Example Request-Flow
 
-Worker:
 ```javascript
 window.postData('hello', 'world');
 window.postData('bob');
 ```
 
-Client:
 ```
 GET /worker/:id
   -> [ "hello", "world", "bob" ]
 ```  
 
-Worker:
 ```javascript
 window.postData({ foo: 'bar'});
 ```    
 
-Client:
 ```
 GET /worker/:id
   -> [ { "foo": "bar" } ]
@@ -275,20 +275,17 @@ Just like a WebWorker if this method is called the `window.ondata` function is c
 
 ### Example Request-Flow
 
-Worker:
 ```javascript
 window.ondata = function(names) {
   window.postData('Hello, ' + names.join(' ') + '!');
 }
 ```  
 
-Client:
 ```
 PUT /worker/:id
 [ "John", "Thomas" ]
 ```
 
-Client:
 ```
 GET /worker/:id
   -> "Hello, John Thomas!"
