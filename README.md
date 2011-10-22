@@ -188,3 +188,38 @@ Use this method to terminate a worker. Useful if you set the worker up to run in
   DELETE  /worker/:id
   
 The id is the id returned when you first created the worker. Once called the browser instance will be immediately terminated and will no longer be accessible.
+
+## Getting results
+This is the easiest way to fetch results given by the worker. Every worker instance is given an extra method to the `window` object called `postMessage` which if called all arguments of which will be placed on a stack which are fetch-able using this HTTP call.
+
+  GET /worker/:id
+  
+> NOTE! Once you've fetched the results they'll be removed from the stack. It's therefore recommended to poll this method.
+  
+### Response
+The response is JSON encoded array containing all the posted data being stored on the stack, for example:
+
+      HTTP/1.1 200 Success
+      Content-Type: application/json
+      X-API-Version: 1
+
+      [ 'hello', 'world', 'foo', 'bar' ]
+      
+If the stack is empty an empty array `[]` is returned.
+
+#### Example Flow
+
+      Worker:
+      window.postMessage('hello');
+      window.postMessage('bob');
+      
+      Client:
+      GET /worker/:id
+        -> [ "hello", "bob" ]
+      
+      Worker:
+      window.postMessage({ foo: 'bar'});
+      
+      Client:
+      GET /worker/:id
+        -> [ { "foo": "bar" } ]
