@@ -181,3 +181,10 @@ This can be displayed on any standard HTML page with the following code snippit:
 ```
 
 Where {mime} is replaced with the returned mime in the json object and {data} is replaced by the base64 encoded data returned in the data tag.
+
+## Terminating a worker
+Use this method to terminate a worker. Useful if you set the worker up to run indefinitely or if you've received all the information needed and you want to save on credit time.
+
+  DELETE  /worker/:id
+  
+The id is the id returned when you first created the worker. Once called the browser instance will be immediately terminated and will no longer be accessible.
