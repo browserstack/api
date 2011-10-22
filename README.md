@@ -231,9 +231,6 @@ Just like a WebWorker if this method is called the `window.onmessage` function i
 
 > The server will close the request after the method call has been processed and invoked. Allowing for immediate postMessage responses to be polled for immediately afterwards.
 
-### Response
-As this event can be bound to many times it makes no sense to post-back the returned value of the `onmessage` function. If you wish to respond to the message, just like in a WebWorker, you should use the `window.postMessage` function and poll for messages using the `GET` verb.
-
 ### Example
   
   worker:
@@ -247,5 +244,19 @@ As this event can be bound to many times it makes no sense to post-back the retu
   
   GET /worker/:id
     -> "Hello, John Thomas!"
+    
+## Getting account credit
+It's useful to know how much time credit you have left in your account. This API call will help you find out.
 
-  
+  GET /account/credit
+
+### Response Example
+
+    HTTP/1.1 200 Success
+    Content-Type: application/json
+    X-API-Version: 1
+
+    { "remaining": 3598, "used": 2 }
+
+`remaining` Is the number of seconds remaining.
+`used` Is the number of seconds used (in total).
