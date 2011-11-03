@@ -94,7 +94,7 @@ A browser worker is simply a new browser instance. A user can have only one brow
 Once a worker has been spawned you can then control this browser instance remotely.
 
 ### Parameters
-A valid request must contain a `browser`, `version`, and a `url`. `timeout` is optional but defaults to 30 seconds.
+A valid request must contain a `browser`, `version`, and a `url`. `timeout` is optional but defaults to 30 minutes.
 
 #### browser
 A valid browser. A list of supported browsers are given using the `GET /browsers`. See the _Getting Available Browsers_ above for details.
