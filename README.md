@@ -85,7 +85,7 @@ Fetches all available browsers.
 
 
 ## Create a New Browser Worker
-A browser worker is simply a new browser instance. A user can have only one browser worker at a time.
+A browser worker is simply a new browser instance. A user can start multiple browser worker at a time. All browser workers when created are pushed in a queue and they run when their turn comes. We make sure that your browser worker starts running as soon as possible. Your testing time is calculated from the time when browser worker starts running.
 
     POST /worker
 
@@ -94,7 +94,7 @@ A browser worker is simply a new browser instance. A user can have only one brow
 Once a worker has been spawned you can then control this browser instance remotely.
 
 ### Parameters
-A valid request must contain a `browser`, `version`, and a `url`. `timeout` is optional but defaults to 30 minutes.
+A valid request must contain a `browser`, `version`, and a `url`. `timeout` is optional but defaults to 1,800 seconds.
 
 #### browser
 A valid browser. A list of supported browsers are given using the `GET /browsers`. See the _Getting Available Browsers_ above for details.
@@ -106,7 +106,7 @@ A valid browser version. List of supported browser versions are given using the 
 A number in seconds before the worker is terminated. Set this to 0 to keep the worker alive indefinitely.
 
 > IMPORTANT! If you have set the timeout to 0. Make sure you remember to terminate the worker otherwise it will continue to use up your credits.
-> Irrespective of timeout parameter, a browser worker is alive for a maximum time of 30 minutes.
+> Irrespective of timeout parameter, a browser worker is alive for a maximum time of 1,800 seconds.
 
 #### (url)
 A valid url to navigate the browser to.
@@ -124,9 +124,7 @@ The response will be returned when the worker has been setup and initialized. Th
     {
       "id": "da39a3ee"
     }
-    
-> Note that an error with message `Not Available` is returned if all instances of that browser are busy and none is currently available.
-
+ 
 
 
 ## Terminating a worker
