@@ -135,3 +135,13 @@ Use this method to terminate a worker. Useful if you set the worker up to run in
 The id is the id returned when you first created the worker. Once called the browser instance will be immediately terminated and will no longer be accessible.
 
 > This call requires authentication. If the request was made unauthorized a `401 Unauthorized` response is given. Alternatively if the authorized user is not the owner of the worker or id does not exist a `403 Forbidden` response is given.
+
+
+## Getting Worker Status
+Sometimes you will need to check on the status of a worker. Not to be confused with the state of the javascript environment within the worker this method simply determines whether the worker is in queue, running or terminated.
+
+		HEAD /worker/:id
+
+> This call requires authentication. If the request was made unauthorized a `401 Unauthorized` response is given. Alternatively if the authorized user is not the owner of the worker a `403 Forbidden` response is given.
+
+If the worker has been terminated a `404 Not Found` response is given. Otherwise a `200 Success` is returned with header `Worker-Status` whose value can be either `queue` or `running`.
