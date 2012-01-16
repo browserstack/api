@@ -160,7 +160,7 @@ This method will return the list of workers whose status is either `queue` or `r
   },
   {
     id: 3254,
-    status: 'queue,
+    status: 'queue',
   } ...
 ]
 ```
