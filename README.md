@@ -145,3 +145,22 @@ Sometimes you will need to check on the status of a worker. Not to be confused w
 > This call requires authentication. If the request was made unauthorized a `401 Unauthorized` response is given. Alternatively if the authorized user is not the owner of the worker a `403 Forbidden` response is given.
 
 If the worker has been terminated a `404 Not Found` response is given. Otherwise a `200 Success` is returned with header `Worker-Status` whose value can be either `queue` or `running`.
+
+If you want to know the list of your current workers with their status, use the following method.
+
+		GET /workers
+
+This method will return the list of workers whose status is either `queue` or `running`. For example:
+
+```javascript
+[
+  {
+    id: 3253,
+    status: 'running',
+  },
+  {
+    id: 3254,
+    status: 'queue,
+  } ...
+]
+```
