@@ -140,11 +140,18 @@ The id is the id returned when you first created the worker. Once called the bro
 ## Getting Worker Status
 Sometimes you will need to check on the status of a worker. Not to be confused with the state of the javascript environment within the worker this method simply determines whether the worker is in queue, running or terminated.
 
-		HEAD /worker/:id
+		GET /worker/:id
 
 > This call requires authentication. If the request was made unauthorized a `401 Unauthorized` response is given. Alternatively if the authorized user is not the owner of the worker a `403 Forbidden` response is given.
 
-If the worker has been terminated a `404 Not Found` response is given. Otherwise a `200 Success` is returned with header `Worker-Status` whose value can be either `queue` or `running`.
+If the worker has been terminated an empty response is given. Otherwise you get a response with status and browser details.
+
+```javascript
+{
+  status: 'running',
+	browser: {name: 'ie', version: '6.0'}
+}
+```
 
 If you want to know the list of your current workers with their status, use the following method.
 
@@ -157,10 +164,12 @@ This method will return the list of workers whose status is either `queue` or `r
   {
     id: 3253,
     status: 'running',
+		browser: {name: 'ie', version: '6.0'}
   },
   {
     id: 3254,
     status: 'queue',
+		browser: {name: 'firefox', version: '9.0'}
   } ...
 ]
 ```
