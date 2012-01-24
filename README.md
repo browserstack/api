@@ -149,7 +149,7 @@ If the worker has been terminated an empty response is given. Otherwise you get 
 ```javascript
 {
   status: 'running',
-	browser: {name: 'ie', version: '6.0'}
+  browser: {name: 'ie', version: '6.0'}
 }
 ```
 
@@ -164,12 +164,12 @@ This method will return the list of workers whose status is either `queue` or `r
   {
     id: 3253,
     status: 'running',
-		browser: {name: 'ie', version: '6.0'}
+    browser: {name: 'ie', version: '6.0'}
   },
   {
     id: 3254,
     status: 'queue',
-		browser: {name: 'firefox', version: '9.0'}
+    browser: {name: 'firefox', version: '9.0'}
   } ...
 ]
 ```
