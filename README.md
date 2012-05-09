@@ -2,14 +2,14 @@
 The following denotes the HTTP-based API for [BrowserStack](http://www.browserstack.com). It provides browser-as-a-service for automated cross-browser testing. The goal is to provide a simple service which can easily be used by any browser testing framework.
 
 ### Schema
-All requests are made to `http://api.browserstack.com/VERSION/` and all returned data is done so in JSON-format. The version this documentation outlines is 1.
+All requests are made to `http://api.browserstack.com/VERSION/` and all returned data is done so in JSON-format. The version this documentation outlines is 2.
 
-    $ curl -i http://api.browserstack.com/1
+    $ curl -i http://api.browserstack.com/2
 
     HTTP/1.1 200 OK
     Content-Type: application/json
     Status: 200 OK
-    X-API-Version: 1
+    X-API-Version: 2
     Content-Length: 2
 
     {}
@@ -41,7 +41,7 @@ All requests are pre-processed and validated. This section outlines how we handl
 ### Authentication
 All methods need to authenticate who you are. Before spawning browser workers and deleting a worker for example. Authentication is done using your username/password within the HTTP request. For example:
 
-    $ curl -u "username:PASSWORD" http://api.browserstack.com/1
+    $ curl -u "username:PASSWORD" http://api.browserstack.com/2
 
 > A `401 Unauthorized` response is given if an unauthorized request is made.    
 
@@ -66,22 +66,48 @@ Fetches all available browsers.
 ### Output
 
 ```javascript
-[
-  {
-    browser: 'ie',
-    version: 7.0,
-  },
-  {
-    browser: 'firefox',
-    version: 2.0,
-  },
-  {
-    browser: 'chrome',
-    version: 14.0,
-  } ...
-]
-```
-  
+{
+  'win':
+    [
+      {
+        browser: 'ie',
+        version: 7.0,
+      },
+      {
+        browser: 'firefox',
+        version: 2.0,
+      },
+      {
+        browser: 'chrome',
+        version: 14.0,
+      } ...
+    ]
+  ,
+  'mac':
+    [
+      {
+        browser: 'firefox',
+        version: 11.0,
+      },
+      {
+        browser: 'chrome',
+        version: 14.0,
+      } ...
+    ]
+  ,
+  'ios':
+    [
+      {
+        device: 'iPhone 4',
+        version: '4.0'
+      },
+      {
+        device: 'iPad 2',
+        version: '4.3.2'      
+      }...
+    ]
+}
+``` 
 
 
 ## Create a New Browser Worker
@@ -94,19 +120,25 @@ A browser worker is simply a new browser instance. A user can start multiple bro
 Once a worker has been spawned you can then control this browser instance remotely.
 
 ### Parameters
-A valid request must contain a `browser`, `version`, and a `url`. `timeout` is optional but defaults to 1,800 seconds.
+A valid request must contain a `os`, `browser` OR `device`, `version`, and a `url`. `timeout` is optional but defaults to 300 seconds.
+
+#### os
+A valid OS. A list of supported OS's are given using the `GET /browsers`. See the _Getting Available Browsers_ above for details.
 
 #### browser
 A valid browser. A list of supported browsers are given using the `GET /browsers`. See the _Getting Available Browsers_ above for details.
 
+#### device
+A valid device. A list of supported devices are given using the `GET /browsers`. See the _Getting Available Browsers_ above for details.
+
 #### version
 A valid browser version. List of supported browser versions are given using the `GET /browsers`. See the _Getting Available Browsers_ above for details.
  
-#### (timeout=30)
+#### (timeout=300)
 A number in seconds before the worker is terminated. Set this to 0 to keep the worker alive indefinitely.
 
 > IMPORTANT! If you have set the timeout to 0. Make sure you remember to terminate the worker otherwise it will continue to use up your credits.
-> Irrespective of timeout parameter, a browser worker is alive for a maximum time of 1,800 seconds.
+> Irrespective of timeout parameter, a browser worker is alive for a maximum time of 300 seconds.
 
 #### (url)
 A valid url to navigate the browser to.
@@ -119,7 +151,7 @@ The response will be returned when the worker has been setup and initialized. Th
 
     HTTP/1.1 200 Success
     Content-Type: application/json
-    X-API-Version: 1
+    X-API-Version: 2
     
     {
       "id": "da39a3ee"
@@ -149,7 +181,9 @@ If the worker has been terminated an empty response is given. Otherwise you get 
 ```javascript
 {
   status: 'running',
-  browser: {name: 'ie', version: '6.0'}
+  browser: 'ie', 
+  version: '6.0',
+  os: 'win'
 }
 ```
 
@@ -164,12 +198,16 @@ This method will return the list of workers whose status is either `queue` or `r
   {
     id: 3253,
     status: 'running',
-    browser: {name: 'ie', version: '6.0'}
+    browser: 'ie', 
+    version: '6.0',
+    os: 'win'
   },
   {
     id: 3254,
     status: 'queue',
-    browser: {name: 'firefox', version: '9.0'}
+    device: 'Samsung Galaxy Tab 8.9',
+    version: '2.2',
+    os: 'android'
   } ...
 ]
 ```
