@@ -102,7 +102,7 @@ Fetches all available browsers.
         version: '4.0'
       },
       {
-        browser: 'iPad 2',
+        device: 'iPad 2',
         version: '4.3.2'      
       }...
     ]
