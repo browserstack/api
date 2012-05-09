@@ -98,12 +98,12 @@ Fetches all available browsers.
   'ios':
     [
       {
-        browser: 'mobile',
-        version: 'iPhone 4-4.0'
+        device: 'iPhone4',
+        version: '4.0'
       },
       {
-        browser: 'tablet',
-        version: 'iPad 2-4.3.2'      
+        browser: 'iPad 2',
+        version: '4.3.2'      
       }...
     ]
 }
@@ -120,13 +120,16 @@ A browser worker is simply a new browser instance. A user can start multiple bro
 Once a worker has been spawned you can then control this browser instance remotely.
 
 ### Parameters
-A valid request must contain a `os`, `browser`, `version`, and a `url`. `timeout` is optional but defaults to 1,800 seconds.
+A valid request must contain a `os`, `browser` OR `device`, `version`, and a `url`. `timeout` is optional but defaults to 1,800 seconds.
 
 #### os
 A valid OS. A list of supported OS's are given using the `GET /browsers`. See the _Getting Available Browsers_ above for details.
 
 #### browser
 A valid browser. A list of supported browsers are given using the `GET /browsers`. See the _Getting Available Browsers_ above for details.
+
+#### device
+A valid device. A list of supported devices are given using the `GET /browsers`. See the _Getting Available Browsers_ above for details.
 
 #### version
 A valid browser version. List of supported browser versions are given using the `GET /browsers`. See the _Getting Available Browsers_ above for details.
@@ -202,9 +205,9 @@ This method will return the list of workers whose status is either `queue` or `r
   {
     id: 3254,
     status: 'queue',
-    browser: 'firefox',
-    version: '9.0',
-    os: 'mac'
+    device: 'Samsung Galaxy Tab 8.9',
+    version: '2.2',
+    os: 'android'
   } ...
 ]
 ```
