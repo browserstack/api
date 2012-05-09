@@ -98,7 +98,7 @@ Fetches all available browsers.
   'ios':
     [
       {
-        device: 'iPhone4',
+        device: 'iPhone 4',
         version: '4.0'
       },
       {
@@ -120,7 +120,7 @@ A browser worker is simply a new browser instance. A user can start multiple bro
 Once a worker has been spawned you can then control this browser instance remotely.
 
 ### Parameters
-A valid request must contain a `os`, `browser` OR `device`, `version`, and a `url`. `timeout` is optional but defaults to 1,800 seconds.
+A valid request must contain a `os`, `browser` OR `device`, `version`, and a `url`. `timeout` is optional but defaults to 300 seconds.
 
 #### os
 A valid OS. A list of supported OS's are given using the `GET /browsers`. See the _Getting Available Browsers_ above for details.
@@ -134,11 +134,11 @@ A valid device. A list of supported devices are given using the `GET /browsers`.
 #### version
 A valid browser version. List of supported browser versions are given using the `GET /browsers`. See the _Getting Available Browsers_ above for details.
  
-#### (timeout=30)
+#### (timeout=300)
 A number in seconds before the worker is terminated. Set this to 0 to keep the worker alive indefinitely.
 
 > IMPORTANT! If you have set the timeout to 0. Make sure you remember to terminate the worker otherwise it will continue to use up your credits.
-> Irrespective of timeout parameter, a browser worker is alive for a maximum time of 1,800 seconds.
+> Irrespective of timeout parameter, a browser worker is alive for a maximum time of 300 seconds.
 
 #### (url)
 A valid url to navigate the browser to.
