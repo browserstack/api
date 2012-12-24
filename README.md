@@ -4,13 +4,13 @@ The following denotes the HTTP-based API for [BrowserStack](http://www.browserst
 ### Schema
 All requests are made to `http://api.browserstack.com/VERSION/` and all returned data is done so in JSON-format. The version this documentation outlines is 2.
 
-    $ curl -i http://api.browserstack.com/2
+    $ curl -i http://api.browserstack.com/3
 
     HTTP/1.1 200 OK
     Content-Type: application/json
     Status: 200 OK
-    X-API-Version: 2
-    Content-Length: 2
+    X-API-Version: 3
+    Content-Length: 3
 
     {}
 
@@ -41,7 +41,7 @@ All requests are pre-processed and validated. This section outlines how we handl
 ### Authentication
 All methods need to authenticate who you are. Before spawning browser workers and deleting a worker for example. Authentication is done using your username/password within the HTTP request. For example:
 
-    $ curl -u "username:PASSWORD" http://api.browserstack.com/2
+    $ curl -u "username:PASSWORD" http://api.browserstack.com/3
 
 > A `401 Unauthorized` response is given if an unauthorized request is made.    
 
@@ -65,47 +65,94 @@ Fetches all available browsers.
   
 ### Output
 
-```javascript
+    ```javascript
 {
-  'win':
-    [
+  'Windows':
+  {
+    '7': 
+      [
       {
-        browser: 'ie',
-        version: 7.0,
+browser: 'ie',
+           version: 8.0,
       },
       {
-        browser: 'firefox',
-        version: 2.0,
+browser: 'firefox',
+         version: 2.0,
       },
       {
-        browser: 'chrome',
-        version: 14.0,
+browser: 'chrome',
+         version: 14.0,
       } ...
     ]
-  ,
-  'mac':
-    [
-      {
-        browser: 'firefox',
-        version: 11.0,
-      },
-      {
-        browser: 'chrome',
-        version: 14.0,
-      } ...
+      ,
+      'XP':
+        [
+        {
+browser: 'ie',
+         version: 7.0,
+        },
+        {
+browser: 'firefox',
+         version: 10.0,
+        },
+        {
+browser: 'chrome',
+         version: 14.0,
+        } ...
     ]
+      ,
+  }
   ,
-  'ios':
-    [
-      {
-        device: 'iPhone 4',
-        version: '4.0'
-      },
-      {
-        device: 'iPad 2',
-        version: '4.3.2'      
-      }...
-    ]
+    'OS X':
+    {
+      'Snow Leopard':
+        [
+        {
+browser: 'firefox',
+         version: 11.0,
+        },
+        {
+browser: 'chrome',
+         version: 14.0,
+        } ...
+      ]
+        ,
+        'Lion' :
+          [
+          {
+browser: 'firefox',
+         browser_version: 11.0,
+          },
+          {
+browser: 'chrome',
+         browser_version: 14.0,
+          } ...
+      ]
+        ,
+    }
+  ,
+    'ios':
+    {
+      '4.0':
+        [
+        {
+browser_version: null,
+                 browser: "Mobile Safari",
+                 devices: ["iPhone 4"],
+        }
+      ]
+        ,
+        '6.0':
+          [
+          {
+browser_version: null,
+                 browser: "Mobile Safari",
+                 devices: ["iPhone 4S (6.0)", "iPhone 5", "iPad 3rd (6.0)"],
+          }
+      ]
+        ,
+    }
+  ,
 }
 ``` 
 
@@ -120,18 +167,22 @@ A browser worker is simply a new browser instance. A user can start multiple bro
 Once a worker has been spawned you can then control this browser instance remotely.
 
 ### Parameters
-A valid request must contain a `os`, `browser` OR `device`, `version`, and a `url`. `timeout` is optional but defaults to 300 seconds.
+A valid request must contain a `os`, `os_version`, and a `url`. `timeout` is optional but defaults to 300 seconds.
+  `browser` and `browser_version` are optional for mobile os but required for desktop os.
 
 #### os
 A valid OS. A list of supported OS's are given using the `GET /browsers`. See the _Getting Available Browsers_ above for details.
+
+#### os_version
+A valid OS Version. A list of supported OS Version's are given using the `GET /browsers`. See the _Getting Available Browsers_ above for details.
 
 #### browser
 A valid browser. A list of supported browsers are given using the `GET /browsers`. See the _Getting Available Browsers_ above for details.
 
 #### device
-A valid device. A list of supported devices are given using the `GET /browsers`. See the _Getting Available Browsers_ above for details.
+A valid device. A list of supported devices are given using the `GET /browsers`. If a device is not provided it defaults to the first device available for that os version. See the _Getting Available Browsers_ above for details.
 
-#### version
+#### browser_version
 A valid browser version. List of supported browser versions are given using the `GET /browsers`. See the _Getting Available Browsers_ above for details.
  
 #### (timeout=300)
@@ -182,8 +233,9 @@ If the worker has been terminated an empty response is given. Otherwise you get 
 {
   status: 'running',
   browser: 'ie', 
-  version: '6.0',
-  os: 'win'
+  browser_version: '6.0',
+  os: 'Windows',
+  os_version: 'XP'
 }
 ```
 
@@ -196,18 +248,17 @@ This method will return the list of workers whose status is either `queue` or `r
 ```javascript
 [
   {
-    id: 3253,
     status: 'running',
     browser: 'ie', 
     version: '6.0',
-    os: 'win'
+    os: 'Windows',
+    os_version: 'XP'
   },
   {
-    id: 3254,
     status: 'queue',
     device: 'Samsung Galaxy Tab 8.9',
-    version: '2.2',
-    os: 'android'
+    os: 'android',
+    os_version: '2.2'
   } ...
 ]
 ```
