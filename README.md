@@ -2,7 +2,7 @@
 The following denotes the HTTP-based API for [BrowserStack](http://www.browserstack.com). It provides browser-as-a-service for automated cross-browser testing. The goal is to provide a simple service which can easily be used by any browser testing framework.
 
 ### Schema
-All requests are made to `http://api.browserstack.com/VERSION/` and all returned data is done so in JSON-format. The version this documentation outlines is 2.
+All requests are made to `http://api.browserstack.com/VERSION/` and all returned data is done so in JSON-format. The version this documentation outlines is 3.
 
     $ curl -i http://api.browserstack.com/3
 
@@ -65,94 +65,85 @@ Fetches all available browsers.
   
 ### Output
 
-    ```javascript
+```javascript
 {
   'Windows':
-  {
-    '7': 
-      [
-      {
-browser: 'ie',
-           version: 8.0,
-      },
-      {
-browser: 'firefox',
-         version: 2.0,
-      },
-      {
-browser: 'chrome',
-         version: 14.0,
-      } ...
-    ]
-      ,
+    {
+      '7': 
+        [
+        {
+          browser: 'ie',
+          browser_version: 8.0,
+        },
+        {
+          browser: 'firefox',
+          browser_version: 2.0,
+        },
+        {
+          browser: 'chrome',
+          browser_version: 14.0,
+        } ...
+        ],
       'XP':
         [
         {
-browser: 'ie',
-         version: 7.0,
+          browser: 'ie',
+          browser_version: 7.0,
         },
         {
-browser: 'firefox',
-         version: 10.0,
+          browser: 'firefox',
+          browser_version: 10.0,
         },
         {
-browser: 'chrome',
-         version: 14.0,
+          browser: 'chrome',
+          browser_version: 14.0,
         } ...
-    ]
-      ,
-  }
-  ,
-    'OS X':
+        ],
+    },
+  'OS X':
     {
       'Snow Leopard':
         [
         {
-browser: 'firefox',
-         version: 11.0,
+          browser: 'firefox',
+          browser_version: 11.0,
         },
         {
-browser: 'chrome',
-         version: 14.0,
+          browser: 'chrome',
+          browser_version: 14.0,
+        }, ...
+        ],
+      'Lion':
+        [
+        {
+          browser: 'firefox',
+          browser_version: 11.0,
+        },
+        {
+          browser: 'chrome',
+          browser_version: 14.0,
         } ...
-      ]
-        ,
-        'Lion' :
-          [
-          {
-browser: 'firefox',
-         browser_version: 11.0,
-          },
-          {
-browser: 'chrome',
-         browser_version: 14.0,
-          } ...
-      ]
-        ,
-    }
-  ,
-    'ios':
+        ],
+    },
+  'ios':
     {
       '4.0':
         [
         {
-browser_version: null,
-                 browser: "Mobile Safari",
-                 devices: ["iPhone 4"],
+          browser: "Mobile Safari",
+          browser_version: null,
+          devices: ["iPhone 4"],
         }
-      ]
-        ,
-        '6.0':
-          [
-          {
-browser_version: null,
-                 browser: "Mobile Safari",
-                 devices: ["iPhone 4S (6.0)", "iPhone 5", "iPad 3rd (6.0)"],
-          }
-      ]
-        ,
-    }
-  ,
+        ],
+      '6.0':
+        [
+        {
+          browser: "Mobile Safari",
+          browser_version: null,
+          devices: ["iPhone 4S (6.0)", "iPhone 5", "iPad 3rd (6.0)"],
+        }
+        ]
+    },
 }
 ``` 
 
