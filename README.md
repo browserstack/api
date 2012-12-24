@@ -193,7 +193,7 @@ The response will be returned when the worker has been setup and initialized. Th
 
     HTTP/1.1 200 Success
     Content-Type: application/json
-    X-API-Version: 2
+    X-API-Version: 3
     
     {
       "id": "da39a3ee"
