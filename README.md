@@ -103,10 +103,9 @@ A valid browser. A list of supported browsers are given using the `GET /browsers
 A valid browser version. List of supported browser versions are given using the `GET /browsers`. See the _Getting Available Browsers_ above for details.
  
 #### (timeout=30)
-A number in seconds before the worker is terminated. Set this to 0 to keep the worker alive indefinitely.
+A number in seconds before the worker is terminated. The default value is 300 seconds. Timeout = 0 also defaults to 300 seconds.
 
-> IMPORTANT! If you have set the timeout to 0. Make sure you remember to terminate the worker otherwise it will continue to use up your credits.
-> Irrespective of timeout parameter, a browser worker is alive for a maximum time of 1,800 seconds.
+> IMPORTANT! Irrespective of timeout parameter, a browser worker is alive for a maximum time of 3600 seconds.
 
 #### (url)
 A valid url to navigate the browser to.
