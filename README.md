@@ -22,7 +22,7 @@ All requests are pre-processed and validated. This section outlines how we handl
 1. All API requests are validated. The following is an example output for a required parameter that wasn't given.
   
     ```
-    HTTP/1.1 422 Unprocessable Entity
+   HTTP/1.1 422 Unprocessable Entity
     Content-Length: 136
     
     {
@@ -251,4 +251,32 @@ This method will return the list of workers whose status is either `queue` or `r
     os_version: '2.2'
   } ...
 ]
+```
+
+
+## Getting API Status
+If you want to know the status of your API, use the following method
+
+    GET /status
+
+This will return the current status of API, like how much API time has been used and how many workers are runnning parallely.
+
+```javascript
+  {
+    used_time: '4235.4',
+    total_available_time: '6000', 
+    running_windows_sessions: '1',
+    windows_sessions_limit: '1'
+    running_mac_sessions: '1',
+    mac_sessions_limit: '2'
+  }
+```
+The time returned is in seconds.
+
+If a user runs out of API time, all requests will return following response
+
+```javascript
+  {
+    message: "You have run out of API time"
+  }
 ```
