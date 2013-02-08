@@ -147,6 +147,51 @@ Fetches all available browsers.
 }
 ``` 
 
+You can also pass a flat parameter also to get browsers in a flat structure
+
+    GET /browsers?flat=true
+  
+### Output
+
+```javascript
+[
+{
+  device: null,
+  os_version: "8",
+  os: "Windows",
+  browser_version: "5.1",
+  browser: "safari"
+},
+{
+  device: null,
+  os_version: "8",
+  os: "Windows",
+  browser_version: "16.0",
+  browser: "firefox"
+},
+{
+  device: null,
+  os_version: "8",
+  os: "Windows",
+  browser_version: "17.0",
+  browser: "firefox"
+},
+{
+  device: null,
+  os_version: "8",
+  os: "Windows",
+  browser_version: "18.0",
+  browser: "firefox"
+},
+{
+  device: null,
+  os_version: "8",
+  os: "Windows",
+  browser_version: "10.0",
+  browser: "ie"
+}....
+``` 
+
 
 ## Create a New Browser Worker
 A browser worker is simply a new browser instance. A user can start multiple browser worker at a time. All browser workers when created are pushed in a queue and they run when their turn comes. We make sure that your browser worker starts running as soon as possible. Your testing time is calculated from the time when browser worker starts running.
