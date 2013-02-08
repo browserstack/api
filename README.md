@@ -147,7 +147,7 @@ Fetches all available browsers.
 }
 ``` 
 
-You can also pass a flat parameter also to get browsers in a flat structure
+A flat parameter can also be passed to get browsers in a flat structure
 
     GET /browsers?flat=true
   
