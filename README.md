@@ -39,9 +39,14 @@ All requests are pre-processed and validated. This section outlines how we handl
     Possible error codes are `required` and `invalid`.
 
 ### Authentication
-All methods need to authenticate who you are. Before spawning browser workers and deleting a worker for example. Authentication is done using your username/password within the HTTP request. For example:
+All methods need to authenticate who you are. Before spawning browser workers and deleting a worker for example. Authentication is done using your username/password (or the BrowserStack access key) within the HTTP request. For example:
 
     $ curl -u "username:PASSWORD" http://api.browserstack.com/3
+
+or use the access key
+
+    $ curl -u "username:access_key" http://api.browserstack.com/3
+
 
 > A `401 Unauthorized` response is given if an unauthorized request is made.    
 
