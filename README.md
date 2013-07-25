@@ -39,14 +39,9 @@ All requests are pre-processed and validated. This section outlines how we handl
     Possible error codes are `required` and `invalid`.
 
 ### Authentication
-All methods need to authenticate who you are. Before spawning browser workers and deleting a worker for example. Authentication is done using your username/password (or the BrowserStack access key) within the HTTP request. For example:
-
-    $ curl -u "username:PASSWORD" http://api.browserstack.com/3
-
-or use the access key
+All methods need to authenticate who you are. Before spawning browser workers and deleting a worker for example. Authentication is done using your username and the BrowserStack access key within the HTTP request. For example:
 
     $ curl -u "username:access_key" http://api.browserstack.com/3
-
 
 > A `401 Unauthorized` response is given if an unauthorized request is made.    
 
@@ -205,7 +200,7 @@ A browser worker is simply a new browser instance. A user can start multiple bro
 
 > This call requires authentication. A `401 Unauthorized` response is given if an unauthorized request is made.
 
-Once a worker has been spawned you can then control this browser instance remotely.
+Once a worker has been spawned you can then control this browser instance remotely. You can also look at the testing session status at the automate dashboard: <http://www.browserstack.com/automate>. This will provide you the general details about the session and a live preview of the remote machine.
 
 ### Parameters
 A valid request must contain a `os`, `os_version`, and a `url`. `timeout` is optional but defaults to 300 seconds.
@@ -248,6 +243,14 @@ The response will be returned when the worker has been setup and initialized. Th
       "id": "da39a3ee"
     }
  
+
+
+### Screenshots
+Use this method to take a screenshot at the current state of the worker.
+
+  GET /worker/:id/screenshot(.format)
+
+Acceptable formats are `json`, `xml` and `png`. This information can also be provided via the HTTP `Accept` headrs: `text/json`, `text/xml`, `image/png` respectively.
 
 
 ## Terminating a worker
