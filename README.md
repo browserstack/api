@@ -192,6 +192,59 @@ A flat parameter can also be passed to get browsers in a flat structure
 }....
 ``` 
 
+You can get beta/dev versions of browsers by using  "all" parameter:
+
+    GET /browsers?all=true
+  
+### Output
+
+```javascript
+{
+  'Windows':
+    {
+      'XP': 
+        [
+        {
+          browser: 'ie',
+          browser_version: 7.0,
+        },
+        {
+          browser: 'firefox',
+          browser_version: '28.0 beta',
+        },
+        {
+          browser: 'chrome',
+          browser_version: 14.0,
+        } ...
+        ],
+    },
+  'OS X':
+    {
+      'Snow Leopard':
+        [
+        {
+          browser: 'firefox',
+          browser_version: 11.0,
+        },
+        {
+          browser: 'chrome',
+          browser_version: '27.0 beta',
+        }, ...
+        ],
+      'Lion':
+        [
+        {
+          browser: 'firefox',
+          browser_version: 11.0,
+        },
+        {
+          browser: 'chrome',
+          browser_version: 14.0,
+        } ...
+        ],
+    },
+}
+``` 
 
 ## Create a New Browser Worker
 A browser worker is simply a new browser instance. A user can start multiple browser worker at a time. All browser workers when created are pushed in a queue and they run when their turn comes. We make sure that your browser worker starts running as soon as possible. Your testing time is calculated from the time when browser worker starts running.
