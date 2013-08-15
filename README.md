@@ -310,10 +310,8 @@ This will return the current status of API, like how much API time has been used
   {
     used_time: '4235.4',
     total_available_time: '6000', 
-    running_windows_sessions: '1',
-    windows_sessions_limit: '1'
-    running_mac_sessions: '1',
-    mac_sessions_limit: '2'
+    running_sessions: '1',
+    sessions_limit: '1'
   }
 ```
 The time returned is in seconds.
