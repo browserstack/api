@@ -39,9 +39,9 @@ All requests are pre-processed and validated. This section outlines how we handl
     Possible error codes are `required` and `invalid`.
 
 ### Authentication
-All methods need to authenticate who you are. Before spawning browser workers and deleting a worker for example. Authentication is done using your username/password within the HTTP request. For example:
+All methods need to authenticate who you are. Before spawning browser workers and deleting a worker for example. Authentication is done using your username and the BrowserStack access key within the HTTP request. For example:
 
-    $ curl -u "username:PASSWORD" http://api.browserstack.com/3
+    $ curl -u "username:access_key" http://api.browserstack.com/3
 
 > A `401 Unauthorized` response is given if an unauthorized request is made.    
 
@@ -192,6 +192,59 @@ A flat parameter can also be passed to get browsers in a flat structure
 }....
 ``` 
 
+You can get beta/dev versions of browsers by using  "all" parameter:
+
+    GET /browsers?all=true
+  
+### Output
+
+```javascript
+{
+  'Windows':
+    {
+      'XP': 
+        [
+        {
+          browser: 'ie',
+          browser_version: 7.0,
+        },
+        {
+          browser: 'firefox',
+          browser_version: '28.0 beta',
+        },
+        {
+          browser: 'chrome',
+          browser_version: 14.0,
+        } ...
+        ],
+    },
+  'OS X':
+    {
+      'Snow Leopard':
+        [
+        {
+          browser: 'firefox',
+          browser_version: 11.0,
+        },
+        {
+          browser: 'chrome',
+          browser_version: '27.0 beta',
+        }, ...
+        ],
+      'Lion':
+        [
+        {
+          browser: 'firefox',
+          browser_version: 11.0,
+        },
+        {
+          browser: 'chrome',
+          browser_version: 14.0,
+        } ...
+        ],
+    },
+}
+``` 
 
 ## Create a New Browser Worker
 A browser worker is simply a new browser instance. A user can start multiple browser worker at a time. All browser workers when created are pushed in a queue and they run when their turn comes. We make sure that your browser worker starts running as soon as possible. Your testing time is calculated from the time when browser worker starts running.
@@ -200,7 +253,7 @@ A browser worker is simply a new browser instance. A user can start multiple bro
 
 > This call requires authentication. A `401 Unauthorized` response is given if an unauthorized request is made.
 
-Once a worker has been spawned you can then control this browser instance remotely.
+Once a worker has been spawned you can then control this browser instance remotely. You can also look at the testing session status at the automate dashboard: <http://www.browserstack.com/automate>. This will provide you the general details about the session and a live preview of the remote machine.
 
 ### Parameters
 A valid request must contain a `os`, `os_version`, and a `url`. `timeout` is optional but defaults to 300 seconds.
@@ -228,9 +281,16 @@ A number in seconds before the worker is terminated. The default value is 300 se
 
 #### (url)
 A valid url to navigate the browser to.
-
 > Make sure the url is encoded. JavaScript: encodeURI(url), PHP: urlencode($url), 
 
+#### (name)
+Provide a name to the session/worker.
+
+#### (build)
+Optional name of the build the session is running under.
+
+#### (project)
+Optional name of the project the build is under.
 
 ### Response
 The response will be returned when the worker has been setup and initialized. This involves loading the HTML data or navigating to the url given depending on the setup parameters. Use the id returned to perform any further communications etc.
@@ -243,6 +303,14 @@ The response will be returned when the worker has been setup and initialized. Th
       "id": "da39a3ee"
     }
  
+
+
+### Screenshots
+Use this method to take a screenshot at the current state of the worker.
+
+  GET /worker/:id/screenshot(.format)
+
+Acceptable formats are `json`, `xml` and `png`. This information can also be provided via the HTTP `Accept` headrs: `text/json`, `text/xml`, `image/png` respectively.
 
 
 ## Terminating a worker
