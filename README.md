@@ -376,10 +376,10 @@ This will return the current status of API, like how much API time has been used
 
 ```javascript
   {
-    used_time: '4235.4',
-    total_available_time: '6000', 
-    running_sessions: '1',
-    sessions_limit: '1'
+    used_time: 4235.4,
+    total_available_time: 6000,
+    running_sessions: 1,
+    sessions_limit: 1
   }
 ```
 The time returned is in seconds.
