@@ -372,7 +372,7 @@ If you want to know the status of your API, use the following method
 
     GET /status
 
-This will return the current status of API, like how much API time has been used and how many workers are runnning parallely.
+This will return the current status of API, like how much API time has been used and how many workers are runnning parallely. All the paid plans have no time limits, only limit on parallel workers you can create.
 
 ```javascript
   {
