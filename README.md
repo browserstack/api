@@ -308,7 +308,7 @@ The response will be returned when the worker has been setup and initialized. Th
 ### Screenshots
 Use this method to take a screenshot at the current state of the worker.
 
-  GET /worker/:id/screenshot(.format)
+  GET /worker/<id>/screenshot(.format)
 
 Acceptable formats are `json`, `xml` and `png`. This information can also be provided via the HTTP `Accept` headrs: `text/json`, `text/xml`, `image/png` respectively.
 
@@ -316,7 +316,7 @@ Acceptable formats are `json`, `xml` and `png`. This information can also be pro
 ## Terminating a worker
 Use this method to terminate a worker. Useful if you set the worker up to run indefinitely or if you've received all the information needed and you want to save on credit time.
 
-  DELETE  /worker/:id
+  DELETE  /worker/<id>
   
 The id is the id returned when you first created the worker. Once called the browser instance will be immediately terminated and will no longer be accessible.
 
@@ -326,7 +326,7 @@ The id is the id returned when you first created the worker. Once called the bro
 ## Getting Worker Status
 Sometimes you will need to check on the status of a worker. Not to be confused with the state of the javascript environment within the worker this method simply determines whether the worker is in queue, running or terminated.
 
-		GET /worker/:id
+		GET /worker/<id>
 
 > This call requires authentication. If the request was made unauthorized a `401 Unauthorized` response is given. Alternatively if the authorized user is not the owner of the worker a `403 Forbidden` response is given.
 
