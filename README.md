@@ -1,15 +1,22 @@
 # API Overview
-The following denotes the HTTP-based API for [BrowserStack](http://www.browserstack.com). It provides browser-as-a-service for automated cross-browser testing. The goal is to provide a simple service which can easily be used by any browser testing framework.
+The following denotes the HTTPS-based API for [BrowserStack](https://www.browserstack.com). It provides browser-as-a-service for automated cross-browser testing. The goal is to provide a simple service which can easily be used by any browser testing framework.
+
+### Authentication
+All methods need to authenticate who you are. Before spawning browser workers and deleting a worker for example. Authentication is done using your username and the BrowserStack access key within the HTTP request. For example:
+
+    $ curl -u "username:access_key" https://api.browserstack.com/4
+
+> A `401 Unauthorized` response is given if an unauthorized request is made.
 
 ### Schema
-All requests are made to `http://api.browserstack.com/VERSION/` and all returned data is done so in JSON-format. The version this documentation outlines is 3.
+All requests are made to `https://api.browserstack.com/VERSION/` and all returned data is done so in JSON-format. The version this documentation outlines is 4.
 
-    $ curl -i http://api.browserstack.com/3
+    $ curl -iu "username:access_key" https://api.browserstack.com/4
 
     HTTP/1.1 200 OK
     Content-Type: application/json
     Status: 200 OK
-    X-API-Version: 3
+    X-API-Version: 4
     Content-Length: 3
 
     {}
@@ -41,7 +48,7 @@ All requests are pre-processed and validated. This section outlines how we handl
 ### Authentication
 All methods need to authenticate who you are. Before spawning browser workers and deleting a worker for example. Authentication is done using your username and the BrowserStack access key within the HTTP request. For example:
 
-    $ curl -u "username:access_key" http://api.browserstack.com/3
+    $ curl -u "username:access_key" https://api.browserstack.com/4
 
 > A `401 Unauthorized` response is given if an unauthorized request is made.    
 
@@ -253,7 +260,7 @@ A browser worker is simply a new browser instance. A user can start multiple bro
 
 > This call requires authentication. A `401 Unauthorized` response is given if an unauthorized request is made.
 
-Once a worker has been spawned you can then control this browser instance remotely. You can also look at the testing session status at the automate dashboard: <http://www.browserstack.com/automate>. This will provide you the general details about the session and a live preview of the remote machine.
+Once a worker has been spawned you can then control this browser instance remotely. You can also look at the testing session status at the automate dashboard: <https://www.browserstack.com/automate>. This will provide you the general details about the session and a live preview of the remote machine.
 
 ### Parameters
 A valid request must contain a `os`, `os_version`, and a `url`. `timeout` is optional but defaults to 300 seconds.
@@ -297,7 +304,7 @@ The response will be returned when the worker has been setup and initialized. Th
 
     HTTP/1.1 200 Success
     Content-Type: application/json
-    X-API-Version: 3
+    X-API-Version: 4
     
     {
       "id": "da39a3ee"
