@@ -284,7 +284,7 @@ A valid browser version. List of supported browser versions are given using the 
 #### (timeout=30)
 A number in seconds before the worker is terminated. The default value is 300 seconds. Timeout = 0 also defaults to 300 seconds.
 
-> IMPORTANT! Irrespective of timeout parameter, a browser worker is alive for a maximum time of 3600 seconds.
+> IMPORTANT! Irrespective of timeout parameter, a browser worker is alive for a maximum time of 1800 seconds.
 
 #### (url)
 A valid url to navigate the browser to.
