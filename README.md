@@ -292,6 +292,9 @@ Optional name of the build the session is running under.
 #### (project)
 Optional name of the project the build is under.
 
+#### (browserstack.video)
+Optional flag to enable video recording in your test.
+
 ### Response
 The response will be returned when the worker has been setup and initialized. This involves loading the HTML data or navigating to the url given depending on the setup parameters. Use the id returned to perform any further communications etc.
 
