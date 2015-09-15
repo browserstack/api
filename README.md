@@ -292,7 +292,7 @@ Optional name of the build the session is running under.
 #### (project)
 Optional name of the project the build is under.
 
-#### (video)
+#### (browserstack.video)
 Optional flag to record video of your test.
 
 ### Response
