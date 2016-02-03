@@ -313,7 +313,7 @@ Use this method to take a screenshot at the current state of the worker.
 
   `GET /worker/<id>/screenshot(.format)`
 
-Acceptable formats are `json`, `xml` and `png`. This information can also be provided via the HTTP `Accept` headrs: `text/json`, `text/xml`, `image/png` respectively.
+Acceptable formats are `json`, `xml` and `png`. This information can also be provided via the HTTP `Accept` headers: `text/json`, `text/xml`, `image/png` respectively.
 
 
 ## Terminating a worker
@@ -375,7 +375,7 @@ If you want to know the status of your API, use the following method
 
     GET /status
 
-This will return the current status of API, like how much API time has been used and how many workers are runnning parallely. All the paid plans have no time limits, only limit on parallel workers you can create.
+This will return the current status of API, like how much API time has been used and how many workers are running parallelly. All the paid plans have no time limits, only limit on parallel workers you can create.
 
 ```javascript
   {
