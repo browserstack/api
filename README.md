@@ -1,3 +1,4 @@
+**Note:** This version of the BrowserStack API has been deprecated. Please use [BrowserStack API  v4.0](https://github.com/browserstack/api)
 # API Overview
 The following denotes the HTTP-based API for [BrowserStack](http://www.browserstack.com). It provides browser-as-a-service for automated cross-browser testing. The goal is to provide a simple service which can easily be used by any browser testing framework.
 
