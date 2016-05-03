@@ -274,8 +274,8 @@ A valid device. A list of supported devices are given using the `GET /browsers`.
 #### browser_version
 A valid browser version. List of supported browser versions are given using the `GET /browsers`. See the _Getting Available Browsers_ above for details.
  
-#### (timeout=30)
-A number in seconds before the worker is terminated. The default value is 300 seconds. Timeout = 0 also defaults to 300 seconds.
+#### (timeout=300)
+A number in seconds before the worker is terminated. The default value is 300 seconds. Timeout = 0 also defaults to 300 seconds. Minimum value is 60.
 
 > IMPORTANT! Irrespective of timeout parameter, a browser worker is alive for a maximum time of 1800 seconds.
 
@@ -324,6 +324,8 @@ Use this method to terminate a worker. Useful if you set the worker up to run in
 The id is the id returned when you first created the worker. Once called the browser instance will be immediately terminated and will no longer be accessible.
 
 > This call requires authentication. If the request was made unauthorized a `401 Unauthorized` response is given. Alternatively if the authorized user is not the owner of the worker or id does not exist a `403 Forbidden` response is given.
+
+> If this call is made within 60 seconds of worker starting, a `422 Unprocessable Entity` response is given and worker will be terminated after 60s of worker running time.
 
 
 ## Getting Worker Status
