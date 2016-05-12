@@ -325,7 +325,7 @@ The id is the id returned when you first created the worker. Once called the bro
 
 > This call requires authentication. If the request was made unauthorized a `401 Unauthorized` response is given. Alternatively if the authorized user is not the owner of the worker or id does not exist a `403 Forbidden` response is given.
 
-> If this request is sent within 60 seconds of starting the worker, response will be '422 Unprocessable Entity' and the worker will be terminated after 60 seconds of its running time.
+> If this request is sent within 60 seconds of starting the worker, response will be '200 OK' and the worker will be terminated after 60 seconds of its running time.
 
 
 ## Getting Worker Status
