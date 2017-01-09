@@ -48,7 +48,7 @@ All requests are pre-processed and validated. This section outlines how we handl
 ### HTTP Verbs
 The API is kept concise and simple by making use of relevant HTTP verbs on each requests. The specifications for these are vague and their use within this API is specific but in general we follow the following rules:
 
-  * `HEAD` - Performs the request to asses the status of a resource and expects no content response.
+  * `HEAD` - Performs the request to assess the status of a resource and expects no content response.
   * `GET` - Used to retrieve resources.
   * `POST` - Used to create new resources.
   * `PUT` - Used to update resources.
