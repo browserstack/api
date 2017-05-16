@@ -396,3 +396,4 @@ If a user runs out of API time, all requests will return following response
     message: "You have run out of API time"
   }
 ```
+**Note**: You can make up to 800 API requests every 5 minutes
