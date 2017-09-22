@@ -125,6 +125,27 @@ Fetches all available browsers.
         } ...
         ],
     },
+  'android':
+    {
+      4.4: 
+        [  
+        {
+          browser: "Android Browser",
+          browser_version: null,
+          devices: ["Samsung Galaxy Tab 4 10.1", "Samsung Galaxy S5", "Samsung Galaxy S5 Mini", "HTC One M8"],
+          real_devices: ["Samsung Galaxy Tab 4", "Samsung Galaxy Note 4", "Google Nexus 5"]
+        }
+        ]
+      6.0: 
+        [
+        {
+          browser: "Android Browser",
+          browser_version: null,
+          devices: [ ],
+          real_devices: ["Samsung Galaxy Note 4", "Motorola Moto X 2nd Gen", "Google Nexus 6", "Samsung Galaxy S7" ]
+        }
+        ],
+    }
   'ios':
     {
       '4.0':
@@ -133,6 +154,7 @@ Fetches all available browsers.
           browser: "Mobile Safari",
           browser_version: null,
           devices: ["iPhone 4"],
+          real_devices: []
         }
         ],
       '6.0':
@@ -141,6 +163,7 @@ Fetches all available browsers.
           browser: "Mobile Safari",
           browser_version: null,
           devices: ["iPhone 4S (6.0)", "iPhone 5", "iPad 3rd (6.0)"],
+          real_devices: []
         }
         ]
     },
@@ -160,36 +183,50 @@ A flat parameter can also be passed to get browsers in a flat structure
   os_version: "8",
   os: "Windows",
   browser_version: "5.1",
-  browser: "safari"
+  browser: "safari",
+  real_mobile: null
 },
 {
   device: null,
   os_version: "8",
   os: "Windows",
   browser_version: "16.0",
-  browser: "firefox"
+  browser: "firefox",
+  real_mobile: null
 },
 {
   device: null,
   os_version: "8",
   os: "Windows",
   browser_version: "17.0",
-  browser: "firefox"
+  browser: "firefox",
+  real_mobile: null
 },
 {
   device: null,
   os_version: "8",
   os: "Windows",
   browser_version: "18.0",
-  browser: "firefox"
+  browser: "firefox",
+  real_mobile: null
 },
 {
   device: null,
   os_version: "8",
   os: "Windows",
   browser_version: "10.0",
-  browser: "ie"
-}....
+  browser: "ie",
+  real_mobile: null
+},
+{
+  os: "android",
+  os_version: "8.0",
+  browser: "Android Browser",
+  device: "Google Pixel",
+  browser_version: null,
+  real_mobile: true
+},
+....
 ``` 
 
 You can get beta/dev versions of browsers by using  "all" parameter:
@@ -274,6 +311,9 @@ A valid device. A list of supported devices are given using the `GET /browsers`.
 #### browser_version
 A valid browser version. List of supported browser versions are given using the `GET /browsers`. See the _Getting Available Browsers_ above for details.
  
+#### real_mobile
+A boolean flag that denotes whether your test should run on a real device. A list of supported real devices are given using the `GET browsers`. See the _Getting Available Browsers_ above for details.
+
 #### (timeout=300)
 Time in seconds before the worker is terminated. Default value is 300 seconds and the minimum value is 60 seconds.
 
