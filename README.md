@@ -296,17 +296,16 @@ Optional name of the project the build is under.
 Optional flag to enable video recording in your test.
 
 #### (resolution)
-Set the resolution of VM before beginning of your test.
+Set the resolution of VM before beginning of your test. Desktop only.
 
-Supported Values:
+| *OS* | *Supported Resolutions* |
+|:--------|:---------|
+|Windows (XP,7)| 800x600, 1024x768, 1280x800, 1280x1024, 1366x768, 1440x900, 1680x1050, 1600x1200, 1920x1200, 1920x1080, 2048x1536|
+|Windows (8,8.1,10)| 1024x768, 1280x800, 1280x1024, 1366x768, 1440x900, 1680x1050, 1600x1200, 1920x1200, 1920x1080, 2048x1536|
+|OS X| 1024x768, 1280x960, 1280x1024, 1600x1200, 1920x1080|
 
-**Windows (XP,7)** : 800x600, 1024x768, 1280x800, 1280x1024, 1366x768, 1440x900, 1680x1050, 1600x1200, 1920x1200, 1920x1080, 2048x1536
 
-**Windows (8,8.1,10)** : 1024x768, 1280x800, 1280x1024, 1366x768, 1440x900, 1680x1050, 1600x1200, 1920x1200, 1920x1080, 2048x1536
-
-**OS X** : 1024x768, 1280x960, 1280x1024, 1600x1200, 1920x1080
-
-**Default** : 1024x768
+*Default* : 1024x768
 
 ### Response
 The response will be returned when the worker has been setup and initialized. This involves loading the HTML data or navigating to the url given depending on the setup parameters. Use the id returned to perform any further communications etc.
