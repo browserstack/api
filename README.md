@@ -372,13 +372,17 @@ This method will return the list of workers whose status is either `queue` or `r
     browser: 'ie', 
     version: '6.0',
     os: 'Windows',
-    os_version: 'XP'
+    os_version: 'XP',
+    sessionId: "<sessionId>",
+    browser_url: "<dashboard url for the session>"
   },
   {
     status: 'queue',
     device: 'Samsung Galaxy Tab 8.9',
     os: 'android',
-    os_version: '2.2'
+    os_version: '2.2',
+    sessionId: "<sessionId>",
+    browser_url: "<dashboard url for the session>"
   } ...
 ]
 ```
@@ -396,7 +400,9 @@ This will return the current status of API, like how much API time has been used
     used_time: 4235.4,
     total_available_time: 6000,
     running_sessions: 1,
-    sessions_limit: 1
+    sessions_limit: 1,
+    sessionId: "<sessionId>",
+    browser_url: "<dashboard url for the session>"
   }
 ```
 The time returned is in seconds.
