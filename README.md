@@ -4,19 +4,19 @@ The following denotes the HTTPS-based API for [BrowserStack](https://www.browser
 ### Authentication
 All methods need to authenticate who you are. Before spawning browser workers and deleting a worker for example. Authentication is done using your username and the BrowserStack access key within the HTTP request. For example:
 
-    $ curl -u "username:access_key" https://api.browserstack.com/4
+    $ curl -u "username:access_key" https://api.browserstack.com/5
 
 > A `401 Unauthorized` response is given if an unauthorized request is made.
 
 ### Schema
-All requests are made to `https://api.browserstack.com/VERSION/` and all returned data is done so in JSON-format. The version this documentation outlines is 4.
+All requests are made to `https://api.browserstack.com/VERSION/` and all returned data is done so in JSON-format. The version this documentation outlines is 5.
 
-    $ curl -iu "username:access_key" https://api.browserstack.com/4
+    $ curl -iu "username:access_key" https://api.browserstack.com/5
 
     HTTP/1.1 200 OK
     Content-Type: application/json
     Status: 200 OK
-    X-API-Version: 4
+    X-API-Version: 5
     Content-Length: 3
 
     {}
@@ -312,7 +312,7 @@ The response will be returned when the worker has been setup and initialized. Th
 
     HTTP/1.1 200 Success
     Content-Type: application/json
-    X-API-Version: 4
+    X-API-Version: 5
     
     {
       "id": "da39a3ee"
