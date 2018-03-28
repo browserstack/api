@@ -355,7 +355,9 @@ If the worker has been terminated an empty response is given. Otherwise you get 
   browser: 'ie', 
   browser_version: '6.0',
   os: 'Windows',
-  os_version: 'XP'
+  os_version: 'XP',
+  sessionId: "<sessionId>",
+  browser_url: "<dashboard url for the session>"
 }
 ```
 
@@ -400,9 +402,7 @@ This will return the current status of API, like how much API time has been used
     used_time: 4235.4,
     total_available_time: 6000,
     running_sessions: 1,
-    sessions_limit: 1,
-    sessionId: "<sessionId>",
-    browser_url: "<dashboard url for the session>"
+    sessions_limit: 1
   }
 ```
 The time returned is in seconds.
