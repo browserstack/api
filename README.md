@@ -1,4 +1,4 @@
-# API v5 Overview
+# API Overview
 
 The following denotes the HTTPS-based API for [BrowserStack](https://www.browserstack.com). It provides browser-as-a-service for automated cross-browser testing. The goal is to provide a simple service which can easily be used by any browser testing framework.
 
