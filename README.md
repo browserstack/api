@@ -524,4 +524,4 @@ If a user runs out of API time, all requests will return the following response
 }
 ```
 
-> **Note**: _You can make up to 800 API requests every 5 minutes._
+> **Note**: _You can make up to 1600 API requests every 5 minutes._
