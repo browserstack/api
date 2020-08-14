@@ -102,7 +102,7 @@ Output:
         },
         {
           browser: 'chrome',
-          browser_version: 14.0,
+          browser_version: '27.0 beta',
         } ...
         ],
       'XP':
@@ -138,7 +138,7 @@ Output:
         [
         {
           browser: 'firefox',
-          browser_version: 11.0,
+          browser_version: '28.0 beta',
         },
         {
           browser: 'chrome',
@@ -219,68 +219,6 @@ Output:
   browser_version: "10.0",
   browser: "ie"
 }....
-```
-
-You can get beta/dev versions of browsers by using `all` parameter:
-
-```http
-GET /browsers?all=true
-```
-
-For example:
-
-```bash
-curl -u "username:access_key" https://api.browserstack.com/5/browsers?all=true
-```
-
-Output:
-
-```javascript
-{
-  'Windows':
-    {
-      'XP':
-        [
-        {
-          browser: 'ie',
-          browser_version: 7.0,
-        },
-        {
-          browser: 'firefox',
-          browser_version: '28.0 beta',
-        },
-        {
-          browser: 'chrome',
-          browser_version: 14.0,
-        } ...
-        ],
-    },
-  'OS X':
-    {
-      'Snow Leopard':
-        [
-        {
-          browser: 'firefox',
-          browser_version: 11.0,
-        },
-        {
-          browser: 'chrome',
-          browser_version: '27.0 beta',
-        }, ...
-        ],
-      'Lion':
-        [
-        {
-          browser: 'firefox',
-          browser_version: 11.0,
-        },
-        {
-          browser: 'chrome',
-          browser_version: 14.0,
-        } ...
-        ],
-    },
-}
 ```
 
 ## Create a New Browser Worker
