@@ -90,80 +90,56 @@ Output:
 {
   'Windows':
     {
-      '7':
+      '10':
         [
-        {
-          browser: 'ie',
-          browser_version: 8.0,
-        },
-        {
-          browser: 'firefox',
-          browser_version: 2.0,
-        },
-        {
-          browser: 'chrome',
-          browser_version: '27.0 beta',
-        } ...
-        ],
-      'XP':
-        [
-        {
-          browser: 'ie',
-          browser_version: 7.0,
-        },
-        {
-          browser: 'firefox',
-          browser_version: 10.0,
-        },
-        {
-          browser: 'chrome',
-          browser_version: 14.0,
-        } ...
+          {
+            "browser": "chrome",
+            "browser_version": "83.0"
+          },
+          {
+            "browser": "chrome",
+            "browser_version": "84.0"
+          },
+          {
+            "browser": "chrome",
+            "browser_version": "85.0 beta"
+          },
+          {
+            "browser": "ie",
+            "browser_version": "11.0"
+          },
+          {
+            "browser": "edge",
+            "browser_version": "insider preview"
+          }...
         ],
     },
   'OS X':
     {
-      'Snow Leopard':
+      'Catalina':
         [
-        {
-          browser: 'firefox',
-          browser_version: 11.0,
-        },
-        {
-          browser: 'chrome',
-          browser_version: 14.0,
-        }, ...
+          {
+            "browser": "chrome",
+            "browser_version": "85.0 beta"
+          },
+          {
+            "browser": "edge",
+            "browser_version": "85.0 beta"
+          },
+          {
+            "browser": "safari",
+            "browser_version": "13.1"
+          },
+          {
+            "browser": "firefox",
+            "browser_version": "79.0"
+          },
+          {
+            "browser": "firefox",
+            "browser_version": "80.0 beta"
+          }...
         ],
-      'Lion':
-        [
-        {
-          browser: 'firefox',
-          browser_version: '28.0 beta',
-        },
-        {
-          browser: 'chrome',
-          browser_version: 14.0,
-        } ...
-        ],
-    },
-  'ios':
-    {
-      '4.0':
-        [
-        {
-          browser: "Mobile Safari",
-          browser_version: null,
-          devices: ["iPhone 4"],
-        }
-        ],
-      '6.0':
-        [
-        {
-          browser: "Mobile Safari",
-          browser_version: null,
-          devices: ["iPhone 4S (6.0)", "iPhone 5", "iPad 3rd (6.0)"],
-        }
-        ]
+      }...
     },
 }
 ```
@@ -183,42 +159,40 @@ curl -u "username:access_key" https://api.browserstack.com/5/browsers?flat=true
 Output:
 
 ```javascript
-[
-{
-  device: null,
-  os_version: "8",
-  os: "Windows",
-  browser_version: "5.1",
-  browser: "safari"
-},
-{
-  device: null,
-  os_version: "8",
-  os: "Windows",
-  browser_version: "16.0",
-  browser: "firefox"
-},
-{
-  device: null,
-  os_version: "8",
-  os: "Windows",
-  browser_version: "17.0",
-  browser: "firefox"
-},
-{
-  device: null,
-  os_version: "8",
-  os: "Windows",
-  browser_version: "18.0",
-  browser: "firefox"
-},
-{
-  device: null,
-  os_version: "8",
-  os: "Windows",
-  browser_version: "10.0",
-  browser: "ie"
-}....
+[  
+  {
+    "os": "Windows",
+    "os_version": "10",
+    "browser": "chrome",
+    "device": null,
+    "browser_version": "84.0",
+    "real_mobile": null
+  },
+  {
+    "os": "Windows",
+    "os_version": "10",
+    "browser": "edge",
+    "device": null,
+    "browser_version": "85.0 beta",
+    "real_mobile": null
+  },
+  {
+    "os": "OS X",
+    "os_version": "Catalina",
+    "browser": "firefox",
+    "device": null,
+    "browser_version": "79.0",
+    "real_mobile": null
+  },
+  {
+    "os": "OS X",
+    "os_version": "Catalina",
+    "browser": "firefox",
+    "device": null,
+    "browser_version": "80.0 beta",
+    "real_mobile": null
+  }....
+]
 ```
 
 ## Create a New Browser Worker
