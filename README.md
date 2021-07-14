@@ -342,12 +342,13 @@ Example response:
    "sessionId": "<sessionId>"
   },
  {
-    status: 'queue',
-    device: 'Samsung Galaxy Tab 8.9',
-    os: 'android',
-    os_version: '2.2',
-    sessionId: "<sessionId>",
-    browser_url: "<dashboard_url_of_the_session>"
+    "id": "<workerId>",
+    "status": "queue",
+    "device": "Samsung Galaxy Tab 8.9",
+    "os": "android",
+    "os_version": "2.2",
+    "browser_url": "<dashboard_url_of_the_session>",
+    "sessionId": "<sessionId>"
   } ...]
 ```
 
