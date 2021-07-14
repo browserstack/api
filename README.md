@@ -315,6 +315,33 @@ For example:
 curl -u "username:access_key" https://api.browserstack.com/5/worker/123456789/screenshot.json
 ```
 
+## Get Details of all Browser Workers
+This API request returns comprehensive information of all browser workers you’ve created.
+ 
+```http
+GET /workers
+```
+Example request:
+```bash
+curl -u "username:access_key" -X GET https://api.browserstack.com/5/workers 
+```
+ 
+Example response:
+```javascript
+[{
+ "id": "<workerId>",
+ "status": "running",
+ "os": "OS X",
+ "os_version": "Mojave",
+ "browser": "chrome",
+ "browser_version": "75.0",
+ "real_mobile": null,
+ "device": null,
+ "browser_url": "<dashboard_url_of_the_session>",
+ "sessionId": "<sessionId>"
+}]
+```
+
 ## Terminating a Browser Worker
 
 Use this method to terminate a worker. Useful if you set the worker up to run indefinitely or if you've received all the information needed and you want to save on credit time.
