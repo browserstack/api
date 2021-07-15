@@ -316,17 +316,17 @@ curl -u "username:access_key" https://api.browserstack.com/5/worker/123456789/sc
 ```
 
 ## Get Details of all Browser Workers
-This API request returns comprehensive information of all browser workers you’ve created. Also, it will return the status of the workers - either `queue` or `running`.
+Returns comprehensive information, such as, worker ID, browser URL, session ID, etc., for all the browser workers you've created. It also returns the current status of the workers, which can be either `queue` or `running`.
  
 ```http
 GET /workers
 ```
-Example request:
+### Example request:
 ```bash
 curl -u "username:access_key" -X GET https://api.browserstack.com/5/workers 
 ```
  
-Example response:
+### Example response:
 ```javascript
 [
   {
@@ -344,9 +344,12 @@ Example response:
  {
     "id": "<workerId>",
     "status": "queue",
-    "device": "Samsung Galaxy Tab 8.9",
     "os": "android",
     "os_version": "2.2",
+    "device": "Samsung Galaxy S",
+    "browser": "Android Browser",
+    "browser_version": null,
+    "real_mobile": false,
     "browser_url": "<dashboard_url_of_the_session>",
     "sessionId": "<sessionId>"
   } ...]
